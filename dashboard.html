@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Dashboard Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            background-color: #f0f8ff; /* Lite Sky Blue */
+        }
+        .top-panel {
+            background-color: #1e90ff; /* Blue */
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .left-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin-right: 15px;
+        }
+
+        .title-container {
+            display: flex;
+            flex-direction: column; /* Arrange items vertically */
+            justify-content: center; /* Center items vertically */
+        }
+
+        .title-bold {
+            font-weight: bold;
+            color: white;
+            font-size: 2.0em;
+            line-height: 1; /* Adjust line height for better spacing */
+        }
+
+        .title-normal {
+            color: #010f13; /* Lite Blue */
+            font-size: 3.0em;
+            line-height: 1; /* Adjust line height for better spacing */
+        }
+
+        .right-section {
+            display: flex;
+            gap: 20px;
+            align-items: center; /* Vertically align items in the right section */
+        }
+
+        .right-section a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .right-section a:hover {
+            text-decoration: underline;
+        }
+
+        .search-box {
+            display: flex;
+        }
+
+        .search-input {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .search-button {
+            background-color: #add8e6; /* Lite Blue */
+            color: #333;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .search-button:hover {
+            background-color: #87ceeb; /* Slightly darker lite blue */
+        }
+
+        .login-link {
+            order: 1; /* Push Login to the end */
+        }
+
+        /* Optional styling for the slideshow container */
+        #carouselExampleIndicators {
+            margin-top: 20px;
+        }
+
+        .carousel-inner img {
+            margin-top: 40px;
+            width: 600px; /* Make images fill the container */
+            height: 500px; /* Maintain aspect ratio */
+            max-height: 250px; /* Optional: set a maximum height */
+            object-fit: cover; /* Ensure images cover the area without distortion */
+        }
+        .welcome-container {
+            max-width: 800px;
+            margin: 40px auto; /* Center the container */
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #007BFF;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555;
+            font-style: italic;
+        }
+        .templates-section {
+            text-align: center;
+            margin-top: 20px; /* Add space above the section */
+            max-width: 80%; /* Make the section narrower */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .template-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Center the options horizontally */
+            gap: 15px; /* Add some gap between options */
+            margin-top: 15px;
+        }
+
+        .template-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 140px; /* Adjust as needed */
+        }
+
+        .template-symbol {
+            font-size: 24px; /* Large size for the symbols */
+            margin-bottom: 8px;
+            color: #007BFF; /* Style the symbols */
+        }
+
+        .template-text {
+            font-size: 12px;
+            color: #333;
+            text-align: center;
+        }
+
+        .copyright-section {
+            background-color: #f0f8ff; /* Lite Sky Blue */
+            color: #333;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            margin-top: 20px;
+            border-top: 1px solid #87CEEB;
+        }
+        .dropdown-menu {
+            background-color: #1e90ff;
+            border: 1px solid #020202;
+        }
+
+        .dropdown-item {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .dropdown-item:hover, .dropdown-item:focus {
+            background-color: #87CEEB;
+            color: #0c0c0c;
+        }
+
+        .dropdown-divider {
+            border-top: 1px solid #161616;
+        }
+
+        .btn-secondary {
+            background-color: #FFF;
+            border-color: #87CEEB;
+            color: #333;
+        }
+
+        .btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active, .btn-secondary.active {
+            background-color: #87CEEB !important;
+            border-color: #87CEEB !important;
+            color: #FFF !important;
+        }
+        .show > .dropdown-menu{
+            display: block;
+        }
+        .data-upload-section {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .get-started-button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .get-started-button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #007bff; /* Bootstrap primary color */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .get-started-button:hover {
+            background-color: #0056b3;
+        }
+        .login-button {
+            background: none;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        /* New styles for the bigger, curved, white login button */
+        .login-button-large {
+            background-color: white;
+            color: black;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button-large:hover {
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+        }
+        .navbar {
+            background-color: #f0f8ff;
+            padding: 10px;
+            margin-top: 20px;
+            border-bottom: 1px solid #87CEEB;
+        }
+
+        .navbar-nav {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .nav-item {
+            margin: 0 15px;
+        }
+
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+
+        .nav-link:hover, .nav-link:active {
+            color: #007BFF;
+            text-decoration: underline;
+        }
+
+        /* New styles for vertical menu */
+        .navbar-vertical {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            margin-top: 20px;
+            margin-left: 10px;
+            position: relative; /* To position the submenu */
+        }
+
+        .navbar-vertical .nav-item {
+            margin: 5px 0;
+        }
+
+        .navbar-vertical .nav-link {
+            color: #333;
+            text-decoration: none;
+            font-size: 1.1em;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-vertical .nav-link:hover,
+        .navbar-vertical .nav-link:active {
+            color: #007BFF;
+            text-decoration: none;
+            background-color: #e0e0e0;
+        }
+
+        .navbar-vertical .nav-link i {
+            margin-right: 10px;
+        }
+
+        .navbar-vertical .submenu {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #87CEEB;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            z-index: 10;
+            width: 150px;
+        }
+
+        .navbar-vertical .nav-item:hover .submenu {
+            display: block;
+        }
+
+        .navbar-vertical .submenu li {
+            margin: 5px 0;
+        }
+
+        .navbar-vertical .submenu a {
+            color: #333;
+            text-decoration: none;
+            font-size: 1em;
+            display: block;
+            padding: 5px 0;
+        }
+
+        .navbar-vertical .submenu a:hover {
+            color: #007BFF;
+            text-decoration: underline;
+        }
+        .vertical-lines {
+            border-left: 2px solid #87CEEB;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="top-panel">
+        <div class="left-section">
+            <img src="logo.png" alt="Logo" class="logo">
+            <div class="title-container">
+                <span class="title-bold">DataViz</span>
+                <span class="title-normal">Generator</span>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Search...">
+                <button class="search-button">Search</button>
+            </div>
+            <a href="/login" class="login-button-large" style="color: #010f13;">Log In</a>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> <i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> <i class="fas fa-user"></i> Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> <i class="fas fa-info-circle"></i> About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> <i class="fas fa-cogs"></i> Settings </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> <i class="fas fa-envelope"></i> Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="poster 4.png" class="d-block w-100" alt="poster">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Data insights</h5>
+              <p>A deep dive into data representation, where patterns emerge from the abstract.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="poster 2.png" class="d-block w-100" alt="poster">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Visualization</h5>
+              <p>From raw data to insightful graphics: the power of effective representation.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="poster 3.png" class="d-block w-100" alt="poster">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>High-tech data</h5>
+              <p>Navigating the data landscape through visual guides.</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+
+
+    <div class="welcome-container">
+      <h1 class="display-4">Welcome to Our Data Visualization Platform!</h1>
+      <p class="lead">
+        Transform your raw data into stunning, interactive dashboards effortlessly.
+        Our website empowers users to convert complex data into clear and customizable
+        visual stories.
+      </p>
+      <p class="font-italic">
+        Design personalized dashboards in just a few clicks—no coding required.
+      </p>
+    </div>
+
+    <div class="templates-section">
+        <h2>Explore Few of Characterized Suggestions</h2>
+        <div class="template-options">
+            <div class="template-option">
+                <span class="template-symbol"><i class="fas fa-chart-line"></i></span>
+                <p class="template-text">Marketing Campaign Performance</p>
+            </div>
+            <div class="template-option">
+                <span class="template-symbol"><i class="fas fa-briefcase"></i></span>
+                <p class="template-text">Business Analytics Overview</p>
+            </div>
+            <div class="template-option">
+                <span class="template-symbol"><i class="fas fa-funnel-dollar"></i></span>
+                <p class="template-text">Sales Pipeline Tracker</p>
+            </div>
+            <div class="template-option">
+                <span class="template-symbol"><i class="fas fa-chart-pie"></i></span>
+                <p class="template-text">Financial Summary</p>
+            </div>
+            <div class="template-option">
+                <span class="template-symbol"><i class="fas fa-comments"></i></span>
+                <p class="template-text">Customer Feedback Analysis</p>
+            </div>
+            <div class="template-option">
+                <span class="template-symbol"><i class="fas fa-tasks"></i></span>
+                <p class="template-text">Project Management</p>
+            </div>
+            <div class="template-option">
+                <span class="template-symbol"><i class="fas fa-share-alt"></i></span>
+                <p class="template-text">Social Media Engagement</p>
+            </div>
+        </div>
+        <div class="get-started-button-container">
+            <a href="/upload" class="get-started-button">Get Started</a>
+        </div>
+    </div>
+
+    <div class="copyright-section">
+        &copy; DataViz Generator <?php echo date("Y"); ?>. All rights reserved.
+        <br>
+        <?php echo "Generated on " . date("l, F j, Y, g:i a"); ?>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
